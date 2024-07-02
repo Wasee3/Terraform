@@ -1,7 +1,7 @@
 
 # Variables
 
-### Contents of file are explained vars.tf are explained here
+### Contents of file are explained variables.tf are explained here
 
 ```
 variable "tenant_id" 
