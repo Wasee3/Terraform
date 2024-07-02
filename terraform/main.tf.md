@@ -31,7 +31,7 @@ module "vnet" {
   spoke_name    = var.spoke_name
   spoke_rg_name = azurerm_resource_group.spoke.name
 
-  diag_name = "${var.hub_name}${random_string.random.result}"
+  diag_name = "${var.hub_name}${random_string.random.result}" # Random string generation
 
   location = var.location
   la_id    = azurerm_log_analytics_workspace.la.id
@@ -41,13 +41,14 @@ module "vnet" {
 module "kv" {
   source = "./modules/keyvault"
 
-  kv_name             = "${var.hub_name}${random_string.random.result}"
+  kv_name             = "${var.hub_name}${random_string.random.result}" # Keyvault name generation by appending random string
   location            = var.location
   resource_group_name = azurerm_resource_group.hub.name
   vm_admin_username   = random_string.user.result
   vm_admin_password   = random_password.pw.result
 }
 
+# Creating all Bastion VMs calling all modules
 module "vm" {
   source = "./modules/vm"
 
@@ -58,6 +59,7 @@ module "vm" {
   vm_subnet_id        = module.vnet.vm_subnet_id
 }
 
+# Creating the supporting infra like ACR,Cosmosdb,etc. (This block is optional and can be skipped. ) 
 module "supporting" {
   source = "./modules/supporting"
 
@@ -73,6 +75,7 @@ module "supporting" {
   ]
 }
 
+# Creating a service principal for Openshift
 module "serviceprincipal" {
   source = "./modules/serviceprincipal"
 
@@ -85,6 +88,7 @@ module "serviceprincipal" {
   ]
 }
 
+# Provisions the openshift cluster using modules
 module "aro" {
   source = "./modules/aro"
 
@@ -106,6 +110,7 @@ module "aro" {
   ]
 }
 
+# Create a Frontdoor LB for Openshift
 module "frontdoor" {
   source = "./modules/frontdoor"
 
@@ -121,6 +126,7 @@ module "frontdoor" {
   ]
 }
 
+# Provsion Container Insights for debugging container.
 module "containerinsights" {
   source = "./modules/containerinsights"
 
