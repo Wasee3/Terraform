@@ -4,21 +4,21 @@ This Terraform deployment will deploy a secure baseline Azure RedHat Openshift (
 
 - Hub and Spoke Network Topology
 - Hub resource group with the following resources:
-  - [Log Analytics Workspace](main.tf)
-  - [Azure Firewall](modules/vnet/firewall.tf)
-  - [Virtual Network](modules/vnet/hub.tf)
-  - [Key Vault](modules/keyvault/keyvault.tf)
-  - [UDR](modules/vnet/udr.tf)
-  - [Bastion Host and 2 jumpboxes](modules/vm/vm.tf)
+  - [Log Analytics Workspace](../main.tf)
+  - [Azure Firewall](../modules/vnet/firewall.tf)
+  - [Virtual Network](../modules/vnet/hub.tf)
+  - [Key Vault](../modules/keyvault/keyvault.tf)
+  - [UDR](../modules/vnet/udr.tf)
+  - [Bastion Host and 2 jumpboxes](../modules/vm/vm.tf)
 - Spoke resource group
-  - [Virtual Network](modules/vnet/spoke.tf)
+  - [Virtual Network](../modules/vnet/spoke.tf)
   - Supporting Services:
-    - [Azure Container Registry](modules/supporting/acr.tf)
-    - [Key Vault](modules/supporting/sup_kv.tf)
-    - [Cosmos DB](modules/supporting/cosmos.tf)
-    - [Azure RedHat Openshift Cluster](modules/aro/aro.tf)
-    - [Front Door](modules/supporting/frontdoor.tf)
-- [Service Principal](modules/serviceprincipal/serviceprincipal.tf) with `Contributor` role on both Hub and Spoke virtual networks
+    - [Azure Container Registry](../modules/supporting/acr.tf)
+    - [Key Vault](../modules/supporting/sup_kv.tf)
+    - [Cosmos DB](../modules/supporting/cosmos.tf)
+    - [Azure RedHat Openshift Cluster](../modules/aro/aro.tf)
+    - [Front Door](../modules/supporting/frontdoor.tf)
+- [Service Principal](../modules/serviceprincipal/serviceprincipal.tf) with `Contributor` role on both Hub and Spoke virtual networks
 
 ### Log Analytics Workspace
 
