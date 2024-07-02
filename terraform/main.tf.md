@@ -1,27 +1,35 @@
-```
-data "azurerm_client_config" "current" {} #fetch and store current Azure Cloud session details, can be referred to later in code.
 
+# Fetch and Store current Azure Cloud session details, can be referred to later in code.
+```
+data "azurerm_client_config" "current" {} 
+```
 # Hub Resource Groups
+```
 resource "azurerm_resource_group" "hub" {
   name     = var.hub_name
   location = var.location
 }
+```
 
 # Spoke resource group
+```
 resource "azurerm_resource_group" "spoke" {
   name     = var.spoke_name
   location = var.location
 }
-
+```
 # Create log analytics workspace
+```
 resource "azurerm_log_analytics_workspace" "la" {
   name                = var.hub_name
   location            = var.location
   resource_group_name = azurerm_resource_group.hub.name
   sku                 = "PerGB2018"
 }
+```
 
-# calling vnet module 
+# Provision the Virtual Network and create Peering with the Hub calling vnet module 
+```
 module "vnet" {
   source = "./modules/vnet"
 
@@ -36,8 +44,9 @@ module "vnet" {
   location = var.location
   la_id    = azurerm_log_analytics_workspace.la.id
 }
-
-
+```
+# Provision a Keyvault to store Username and Password for Bastion
+```
 module "kv" {
   source = "./modules/keyvault"
 
@@ -47,8 +56,10 @@ module "kv" {
   vm_admin_username   = random_string.user.result
   vm_admin_password   = random_password.pw.result
 }
+```
 
 # Creating all Bastion VMs calling all modules
+```
 module "vm" {
   source = "./modules/vm"
 
@@ -58,8 +69,10 @@ module "vm" {
   kv_id               = module.kv.kv_id
   vm_subnet_id        = module.vnet.vm_subnet_id
 }
+```
 
 # Creating the supporting infra like ACR,Cosmosdb,etc. (This block is optional and can be skipped. ) 
+```
 module "supporting" {
   source = "./modules/supporting"
 
@@ -74,8 +87,10 @@ module "supporting" {
     module.vnet
   ]
 }
+```
 
 # Creating a service principal for Openshift
+```
 module "serviceprincipal" {
   source = "./modules/serviceprincipal"
 
@@ -87,8 +102,10 @@ module "serviceprincipal" {
     module.vnet
   ]
 }
+```
 
 # Provisions the openshift cluster using modules
+```
 module "aro" {
   source = "./modules/aro"
 
@@ -109,8 +126,10 @@ module "aro" {
     module.serviceprincipal
   ]
 }
+```
 
 # Create a Frontdoor LB for Openshift
+```
 module "frontdoor" {
   source = "./modules/frontdoor"
 
@@ -125,8 +144,10 @@ module "frontdoor" {
     module.aro
   ]
 }
+```
 
 # Provsion Container Insights for debugging container.
+```
 module "containerinsights" {
   source = "./modules/containerinsights"
 
