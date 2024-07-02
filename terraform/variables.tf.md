@@ -2,8 +2,11 @@
 # Variables
 
 ### Contents of file are explained variables.tf are explained here
-
-```
+  Variables.tf are used to declare variables in Terraform. 
+  If the Default Parameter is not specified, those need to be explicitly specified while executing the Terraform Script.
+  In this config Random string are also generated. These random strings leveraged to ensure uniqueness while naming Cloud resources.
+  
+```terraform
 variable "tenant_id" 
 {
   type = string
