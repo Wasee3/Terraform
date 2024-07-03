@@ -10,6 +10,7 @@ resource "azurerm_role_assignment" "resource_provider_assignment" {
   principal_id         = var.aro_rp_object_id
 }
 
+# Provisioning of Openshift Cluster through ARM template
 resource "azurerm_resource_group_template_deployment" "aro" {
   name = var.base_name
   resource_group_name = data.azurerm_resource_group.spoke.name
