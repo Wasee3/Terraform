@@ -1,10 +1,14 @@
-# Terraform Code
+# Terraform Code for Azure Red hat Openshift Landing zone
 
 Purpose of this document is to explain the terraform code for Provisioning Azure Openshift Landing Zone.
 
 ARO deployment is done through ARM template.
 
 The rest of the landing zones used is provisioned through Terraform.
+
+Architecture of the resources provisioned through Terraform are explained in the following diagram.
+
+![Spoke Architecture](./terraform/media/aro_landing_zone_Architecture.png)
 
   Folder Structure
 ```
@@ -28,4 +32,8 @@ The rest of the landing zones used is provisioned through Terraform.
 Scrolling through huge Terraform code to find the right resource to fix makes life hard.
 
 With modules code can be broken down into smaller snippets, which increases readability and maintainance of the code.
+
+Entire hub and spoke architecture in illustrated as follows,
+
+![Hub and Spoke Architecture](./terraform/media/conceptual-architecture.png)
 
